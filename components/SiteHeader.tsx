@@ -8,9 +8,9 @@ const links = [
   { href: "/contact", label: "Контакты" },
 ];
 
-export function SiteHeader() {
+export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
   return (
-    <header className="site-header">
+    <header className={`site-header ${overlay ? "site-header-overlay" : ""}`}>
       <div className="header-inner">
         <Link className="brand" href="/" aria-label="MIRKO IZOBASALT — главная">
           <span className="brand-mark" aria-hidden="true">

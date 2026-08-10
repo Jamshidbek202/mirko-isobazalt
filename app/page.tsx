@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { BasaltScene } from "@/components/BasaltScene";
+import { HeroExperience } from "@/components/HeroExperience";
 import { MaterialCalculator } from "@/components/MaterialCalculator";
 import { PageShell } from "@/components/PageShell";
 import { ReviewForm } from "@/components/ReviewForm";
@@ -27,42 +27,14 @@ const applications = [
 
 export default function Home() {
   return (
-    <PageShell>
-      <section className="hero">
-        <div className="hero-grain" />
-        <div className="hero-copy">
-          <span className="eyebrow">Минеральная теплоизоляция · Узбекистан</span>
-          <h1>Тепло<br />остаётся <em>внутри.</em></h1>
-          <p>Базальтовые плиты MIRKO IZOBASALT помогают создавать тёплые, тихие и энергоэффективные здания.</p>
-          <div className="hero-actions">
-            <Link className="button button-green" href="/contact#request">Рассчитать проект <span>↗</span></Link>
-            <Link className="text-link" href="/product">Изучить продукт <span>→</span></Link>
-          </div>
-        </div>
-
-        <div className="hero-visual" aria-label="Упаковка теплоизоляции MIRKO IZOBASALT">
-          <div className="hero-image-frame">
-            <Image src="/assets/product-side.jpg" alt="Упакованная базальтовая теплоизоляция MIRKO IZOBASALT" fill sizes="(max-width: 820px) 95vw, 44vw" priority unoptimized />
-          </div>
-          <div className="hero-stamp">
-            <span>Сделано для</span><strong>UZ</strong><span>климата</span>
-          </div>
-          <div className="hero-caption"><span>01</span> Надёжная оболочка здания</div>
-        </div>
-
-        <div className="hero-bottom">
-          <span>Для проектов в Ферганской области</span>
-          <span className="hero-scroll">Листайте, чтобы увидеть материал <i>↓</i></span>
-        </div>
-      </section>
+    <PageShell headerOverlay>
+      <HeroExperience />
 
       <section className="fact-strip" aria-label="Основные показатели">
         {facts.map(([value, label]) => (
           <div key={value}><strong>{value}</strong><span>{label}</span></div>
         ))}
       </section>
-
-      <BasaltScene />
 
       <section className="section product-intro">
         <div className="section-heading">
