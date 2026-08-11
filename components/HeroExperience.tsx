@@ -1,19 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { type CSSProperties, type ElementType, type PointerEvent, useEffect, useRef, useState } from "react";
+import { type CSSProperties, type ElementType, useEffect, useRef, useState } from "react";
 
 const clamp = (value: number, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 const mix = (from: number, to: number, amount: number) => from + (to - from) * amount;
-
-function stagePosition(progress: number) {
-  if (progress < 0.24) return mix(70, 60, progress / 0.24);
-  if (progress < 0.5) return mix(60, 56, (progress - 0.24) / 0.26);
-  if (progress < 0.6) return mix(56, 27, (progress - 0.5) / 0.1);
-  if (progress < 0.76) return 27;
-  if (progress < 0.84) return mix(27, 78, (progress - 0.76) / 0.08);
-  return mix(78, 75, (progress - 0.84) / 0.16);
-}
 
 function orbitAngle(progress: number) {
   if (progress < 0.24) return mix(192, 130, progress / 0.24);
@@ -26,7 +17,6 @@ export function HeroExperience() {
   const sectionRef = useRef<HTMLElement>(null);
   const modelRef = useRef<HTMLElement>(null);
   const [progress, setProgress] = useState(0);
-  const [pointer, setPointer] = useState({ x: 0, y: 0 });
   const [modelReady, setModelReady] = useState(false);
 
   useEffect(() => {
@@ -73,25 +63,13 @@ export function HeroExperience() {
   }, []);
 
   const phase = progress < 0.24 ? 0 : progress < 0.5 ? 1 : progress < 0.76 ? 2 : 3;
-  const theta = orbitAngle(progress) + pointer.x * 7;
-  const phi = 76 - Math.sin(progress * Math.PI) * 11 + pointer.y * 3;
+  const theta = orbitAngle(progress);
+  const phi = 76 - Math.sin(progress * Math.PI) * 11;
   const radius = 92 - Math.sin(progress * Math.PI) * 9;
 
   const style = {
     "--mv-progress": progress,
-    "--mv-stage-x": `${stagePosition(progress)}%`,
-    "--mv-pointer-x": pointer.x,
-    "--mv-pointer-y": pointer.y,
   } as CSSProperties;
-
-  function movePointer(event: PointerEvent<HTMLElement>) {
-    if (event.pointerType === "touch") return;
-    const rect = event.currentTarget.getBoundingClientRect();
-    setPointer({
-      x: clamp((event.clientX - rect.left) / rect.width) * 2 - 1,
-      y: clamp((event.clientY - rect.top) / rect.height) * 2 - 1,
-    });
-  }
 
   const ModelViewer = "model-viewer" as ElementType;
 
@@ -100,8 +78,6 @@ export function HeroExperience() {
       className="model-hero"
       data-phase={phase}
       ref={sectionRef}
-      onPointerMove={movePointer}
-      onPointerLeave={() => setPointer({ x: 0, y: 0 })}
       aria-labelledby="hero-title"
     >
       <div className="model-hero-sticky" style={style}>
@@ -126,16 +102,21 @@ export function HeroExperience() {
             src="/assets/mirko-izobasalt-product.glb"
             alt="Интерактивная 3D модель упаковки MIRKO IZOBASALT"
             camera-controls=""
+            disable-pan=""
+            auto-rotate=""
+            auto-rotate-delay="900"
+            rotation-per-second="16deg"
             camera-orbit={`${theta}deg ${phi}deg ${radius}%`}
             field-of-view="29deg"
             min-field-of-view="23deg"
             max-field-of-view="36deg"
             interaction-prompt="none"
             touch-action="pan-y"
-            shadow-intensity="1.25"
-            shadow-softness="0.82"
+            shadow-intensity="1.85"
+            shadow-softness="0.48"
             environment-image="neutral"
-            exposure="1.12"
+            tone-mapping="commerce"
+            exposure="1.08"
             loading="eager"
             reveal="auto"
             onLoad={() => setModelReady(true)}
