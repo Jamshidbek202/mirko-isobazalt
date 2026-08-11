@@ -16,11 +16,14 @@ function orbitAngle(progress: number) {
 export function HeroExperience() {
   const sectionRef = useRef<HTMLElement>(null);
   const modelRef = useRef<HTMLElement>(null);
+  const wheelLockRef = useRef(false);
+  const wheelUnlockTimerRef = useRef<number | null>(null);
   const [progress, setProgress] = useState(0);
   const [modelReady, setModelReady] = useState(false);
 
   useEffect(() => {
     let active = true;
+    const heroSection = sectionRef.current;
     const model = modelRef.current as (HTMLElement & { loaded?: boolean }) | null;
     const markReady = () => {
       if (active) setModelReady(true);
@@ -53,11 +56,58 @@ export function HeroExperience() {
     measure();
     window.addEventListener("scroll", measure, { passive: true });
     window.addEventListener("resize", measure);
+
+    const chapterStops = [0, 0.255, 0.515, 0.775, 1];
+    const releaseWheelLockAfterGesture = () => {
+      if (wheelUnlockTimerRef.current) window.clearTimeout(wheelUnlockTimerRef.current);
+      wheelUnlockTimerRef.current = window.setTimeout(() => {
+        wheelLockRef.current = false;
+      }, 220);
+    };
+
+    const navigateChapter = (event: WheelEvent) => {
+      const section = heroSection;
+      const finePointer = window.matchMedia("(pointer: fine)").matches;
+      if (!section || reduced || !finePointer || Math.abs(event.deltaY) < 4) return;
+
+      const rect = section.getBoundingClientRect();
+      const distance = Math.max(1, section.offsetHeight - window.innerHeight);
+      const sectionTop = window.scrollY + rect.top;
+      const currentProgress = clamp((window.scrollY - sectionTop) / distance);
+      const direction = Math.sign(event.deltaY);
+      const leavingStart = direction < 0 && currentProgress <= 0.015;
+      const leavingEnd = direction > 0 && currentProgress >= 0.985;
+
+      if (leavingStart || leavingEnd) return;
+
+      event.preventDefault();
+      releaseWheelLockAfterGesture();
+      if (wheelLockRef.current) return;
+      wheelLockRef.current = true;
+
+      const targetProgress = direction > 0
+        ? chapterStops.find((stop) => stop > currentProgress + 0.045)
+        : chapterStops.findLast((stop) => stop < currentProgress - 0.045);
+
+      if (targetProgress === undefined) {
+        wheelLockRef.current = false;
+        return;
+      }
+
+      window.scrollTo({
+        top: sectionTop + targetProgress * distance,
+        behavior: "smooth",
+      });
+    };
+
+    heroSection?.addEventListener("wheel", navigateChapter, { passive: false });
     return () => {
       active = false;
       model?.removeEventListener("load", markReady);
       window.removeEventListener("scroll", measure);
       window.removeEventListener("resize", measure);
+      heroSection?.removeEventListener("wheel", navigateChapter);
+      if (wheelUnlockTimerRef.current) window.clearTimeout(wheelUnlockTimerRef.current);
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, []);
@@ -103,6 +153,7 @@ export function HeroExperience() {
             alt="Интерактивная 3D модель упаковки MIRKO IZOBASALT"
             camera-controls=""
             disable-pan=""
+            disable-zoom=""
             auto-rotate=""
             auto-rotate-delay="900"
             rotation-per-second="16deg"
