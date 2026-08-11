@@ -620,7 +620,7 @@ button { color: inherit; }
 .mv-topline span:first-child { display: flex; align-items: center; gap: 9px; }
 .mv-topline span:first-child i { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 16px var(--lime); }
 
-.mv-stage { position: absolute; z-index: 6; left: 77%; top: 51%; width: min(50vw, 900px); height: min(74svh, 770px); transform: translate(-50%, -50%); transition: width .45s ease; }
+.mv-stage { position: absolute; z-index: 6; left: 74%; top: 51%; width: min(46vw, 840px); height: min(74svh, 770px); transform: translate(-50%, -50%); transition: width .45s ease; }
 .mv-model { position: absolute; z-index: 5; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: grab; filter: drop-shadow(0 50px 50px rgba(0, 0, 0, .34)); transition: opacity .8s ease; --poster-color: transparent; }
 .mv-model:active { cursor: grabbing; }
 .mv-stage.is-ready .mv-model { opacity: 1; }
@@ -740,7 +740,7 @@ button { color: inherit; }
 }
 
 @media (max-width: 1100px) {
-  .mv-stage { left: 78%; width: min(50vw, 650px); }
+  .mv-stage { left: 75%; width: min(46vw, 600px); }
   .mv-intro { width: 44vw; }
   .mv-density-copy { width: 42vw; }
   .mv-spec-tag { scale: .84; }
