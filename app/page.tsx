@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 };
 
 const facts = [
-  ["80 · 100 · 120", "кг/м³ — варианты плотности"],
-  ["600 × 1200", "мм — размер плиты"],
-  ["5.04", "м² в одной пачке"],
-  ["20+", "сотрудников компании"],
+  ["2025", "год основания в Узбекистане"],
+  ["20+", "специалистов в команде"],
+  ["3", "плотности под разные задачи"],
+  ["FGR", "приоритетный регион поставок"],
 ];
 
 const applications = [
@@ -36,24 +36,28 @@ export default function Home() {
         ))}
       </section>
 
-      <section className="section product-intro">
-        <div className="section-heading">
-          <span className="eyebrow">Один продукт · разные задачи</span>
-          <h2>Точный формат.<br />Понятные характеристики.</h2>
+      <section className="product-reveal" id="product-study">
+        <div className="product-reveal-heading">
+          <div>
+            <span className="eyebrow">Один продукт · разные задачи</span>
+            <h2>Точность<br /><em>в каждой грани.</em></h2>
+          </div>
+          <p>Упаковка защищает минеральные плиты при хранении и перевозке. Все рабочие параметры — без лишнего шума, на одном продукте.</p>
         </div>
-        <div className="product-intro-grid">
-          <div className="product-photo-card">
-            <Image src="/assets/product-packaging.jpg" alt="Пачки минеральной теплоизоляции MIRKO IZOBASALT" fill sizes="(max-width: 820px) 100vw, 55vw" unoptimized />
-            <span className="photo-index">01 / PRODUCT</span>
+
+        <div className="product-views-card">
+          <div className="product-views-image">
+            <Image src="/assets/product-six-views.jpg" alt="MIRKO IZOBASALT со всех сторон: спереди, сзади, сверху, снизу, слева и справа" fill sizes="100vw" priority unoptimized />
           </div>
-          <div className="spec-list">
-            <div><span>Плотность</span><strong>80 / 100 / 120</strong><em>кг/м³</em></div>
-            <div><span>Размер плиты</span><strong>600 × 1200</strong><em>мм</em></div>
-            <div><span>Площадь пачки</span><strong>5.04</strong><em>м²</em></div>
-            <div><span>Температурная стойкость</span><strong>600–800</strong><em>°C*</em></div>
-            <p>*Точное значение зависит от типа изделия и подтверждается технической документацией.</p>
-            <Link className="button button-outline" href="/product">Все характеристики <span>→</span></Link>
-          </div>
+          <span className="views-caption views-caption-top">PRODUCT STUDY / 06 VIEWS</span>
+          <span className="views-caption views-caption-bottom">MIRKO IZOBASALT · FERGANA / UZ</span>
+        </div>
+
+        <div className="product-data-grid">
+          <article><span>01 / Плотность</span><strong>80 · 100 · 120</strong><small>кг/м³</small></article>
+          <article><span>02 / Формат</span><strong>600 × 1200</strong><small>мм</small></article>
+          <article><span>03 / В пачке</span><strong>5.04</strong><small>м²</small></article>
+          <article className="product-data-action"><p>Подробные характеристики, области применения и рекомендации по подбору.</p><Link className="button button-dark" href="/product">Открыть продукт <span>↗</span></Link></article>
         </div>
       </section>
 
@@ -92,18 +96,17 @@ export default function Home() {
         <MaterialCalculator />
       </section>
 
-      <section className="section projects-teaser">
-        <div className="section-heading heading-row">
-          <div><span className="eyebrow">Практика</span><h2>Проекты,<br />которые говорят сами.</h2></div>
-          <Link className="text-link" href="/projects">Все проекты <span>→</span></Link>
+      <section className="project-journal">
+        <div className="project-journal-image">
+          <Image src="/assets/product-side.jpg" alt="Упакованная теплоизоляция MIRKO IZOBASALT на производственной площадке" fill sizes="(max-width: 820px) 100vw, 56vw" unoptimized />
+          <span>FIELD NOTES · 01</span>
         </div>
-        <div className="project-preview-grid">
-          {["01", "02", "03"].map((number) => (
-            <article key={number}>
-              <div className="project-placeholder"><span>{number}</span><i /></div>
-              <div><strong>Кейс в подготовке</strong><span>Фото и параметры объекта будут добавлены</span></div>
-            </article>
-          ))}
+        <div className="project-journal-copy">
+          <span className="eyebrow eyebrow-light">Практика</span>
+          <h2>Материал для<br /><em>реальных объектов.</em></h2>
+          <p>Формируем библиотеку объектов с фотографиями, задачами, плотностью материала и фактическим объёмом поставки.</p>
+          <Link className="button button-light" href="/projects">Открыть проекты <span>→</span></Link>
+          <div className="journal-meta"><span>Фасады</span><span>Кровли</span><span>Стены</span><span>Перекрытия</span></div>
         </div>
       </section>
 

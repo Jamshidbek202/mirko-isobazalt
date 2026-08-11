@@ -1,24 +1,53 @@
 "use client";
 
 import Link from "next/link";
-import { type CSSProperties, type PointerEvent, useEffect, useRef, useState } from "react";
+import { type CSSProperties, type ElementType, type PointerEvent, useEffect, useRef, useState } from "react";
 
 const clamp = (value: number, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+const mix = (from: number, to: number, amount: number) => from + (to - from) * amount;
+
+function stagePosition(progress: number) {
+  if (progress < 0.24) return mix(70, 60, progress / 0.24);
+  if (progress < 0.5) return mix(60, 56, (progress - 0.24) / 0.26);
+  if (progress < 0.6) return mix(56, 27, (progress - 0.5) / 0.1);
+  if (progress < 0.76) return 27;
+  if (progress < 0.84) return mix(27, 78, (progress - 0.76) / 0.08);
+  return mix(78, 75, (progress - 0.84) / 0.16);
+}
+
+function orbitAngle(progress: number) {
+  if (progress < 0.24) return mix(192, 130, progress / 0.24);
+  if (progress < 0.5) return mix(130, 78, (progress - 0.24) / 0.26);
+  if (progress < 0.76) return mix(78, 192, (progress - 0.5) / 0.26);
+  return mix(192, 266, (progress - 0.76) / 0.24);
+}
 
 export function HeroExperience() {
   const sectionRef = useRef<HTMLElement>(null);
+  const modelRef = useRef<HTMLElement>(null);
   const [progress, setProgress] = useState(0);
   const [pointer, setPointer] = useState({ x: 0, y: 0 });
+  const [modelReady, setModelReady] = useState(false);
 
   useEffect(() => {
+    let active = true;
+    const model = modelRef.current as (HTMLElement & { loaded?: boolean }) | null;
+    const markReady = () => {
+      if (active) setModelReady(true);
+    };
+    model?.addEventListener("load", markReady);
+    void import("@google/model-viewer").then(() => {
+      if (model?.loaded) markReady();
+    });
+
     let frame = 0;
     let target = 0;
     let current = 0;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const animate = () => {
-      current += (target - current) * (reduced ? 1 : 0.12);
-      if (Math.abs(target - current) < 0.0005) current = target;
+      current += (target - current) * (reduced ? 1 : 0.1);
+      if (Math.abs(target - current) < 0.0004) current = target;
       setProgress(current);
       frame = current === target ? 0 : window.requestAnimationFrame(animate);
     };
@@ -27,8 +56,7 @@ export function HeroExperience() {
       const section = sectionRef.current;
       if (!section) return;
       const rect = section.getBoundingClientRect();
-      const travel = Math.max(1, rect.height - window.innerHeight);
-      target = clamp(-rect.top / travel);
+      target = clamp(-rect.top / Math.max(1, rect.height - window.innerHeight));
       if (!frame) frame = window.requestAnimationFrame(animate);
     };
 
@@ -36,133 +64,130 @@ export function HeroExperience() {
     window.addEventListener("scroll", measure, { passive: true });
     window.addEventListener("resize", measure);
     return () => {
+      active = false;
+      model?.removeEventListener("load", markReady);
       window.removeEventListener("scroll", measure);
       window.removeEventListener("resize", measure);
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, []);
 
-  const phase = progress < 0.23 ? 0 : progress < 0.49 ? 1 : progress < 0.74 ? 2 : 3;
-  const unwrap = clamp((progress - 0.15) / 0.25);
-  const separate = clamp((progress - 0.38) / 0.35);
-  const shield = clamp((progress - 0.66) / 0.24);
+  const phase = progress < 0.24 ? 0 : progress < 0.5 ? 1 : progress < 0.76 ? 2 : 3;
+  const theta = orbitAngle(progress) + pointer.x * 7;
+  const phi = 76 - Math.sin(progress * Math.PI) * 11 + pointer.y * 3;
+  const radius = 92 - Math.sin(progress * Math.PI) * 9;
 
   const style = {
-    "--hx-progress": progress,
-    "--hx-rotate-x": `${-7 + progress * 18 - pointer.y * 4}deg`,
-    "--hx-rotate-y": `${-27 + progress * 128 + pointer.x * 9}deg`,
-    "--hx-rotate-z": `${-2 + Math.sin(progress * Math.PI) * 4}deg`,
-    "--hx-lift": `${-8 - Math.sin(progress * Math.PI) * 34}px`,
-    "--hx-scale": 1.02 - progress * 0.12,
-    "--hx-pack-opacity": 1 - unwrap,
-    "--hx-pack-shift": `${-190 * unwrap}px`,
-    "--hx-layer-gap": `${10 + separate * 58}px`,
-    "--hx-layer-opacity": separate,
-    "--hx-shield-opacity": shield,
-    "--hx-stage-x": `${64 - shield * 27}%`,
-    "--hx-pointer-x": pointer.x,
-    "--hx-pointer-y": pointer.y,
+    "--mv-progress": progress,
+    "--mv-stage-x": `${stagePosition(progress)}%`,
+    "--mv-pointer-x": pointer.x,
+    "--mv-pointer-y": pointer.y,
   } as CSSProperties;
 
   function movePointer(event: PointerEvent<HTMLElement>) {
     if (event.pointerType === "touch") return;
     const rect = event.currentTarget.getBoundingClientRect();
     setPointer({
-      x: clamp((event.clientX - rect.left) / rect.width, 0, 1) * 2 - 1,
-      y: clamp((event.clientY - rect.top) / rect.height, 0, 1) * 2 - 1,
+      x: clamp((event.clientX - rect.left) / rect.width) * 2 - 1,
+      y: clamp((event.clientY - rect.top) / rect.height) * 2 - 1,
     });
   }
 
+  const ModelViewer = "model-viewer" as ElementType;
+
   return (
     <section
-      className="hero-experience"
+      className="model-hero"
       data-phase={phase}
       ref={sectionRef}
       onPointerMove={movePointer}
       onPointerLeave={() => setPointer({ x: 0, y: 0 })}
       aria-labelledby="hero-title"
     >
-      <div className="hero-experience-sticky" style={style}>
-        <div className="hx-atmosphere" aria-hidden="true">
-          <div className="hx-grid" />
-          <div className="hx-aura" />
-          <div className="hx-house-line"><i /><i /><i /></div>
-          {Array.from({ length: 15 }).map((_, index) => <span className={`hx-particle particle-${index + 1}`} key={index} />)}
+      <div className="model-hero-sticky" style={style}>
+        <div className="mv-atmosphere" aria-hidden="true">
+          <div className="mv-aurora" />
+          <div className="mv-grid" />
+          <div className="mv-house"><i /><i /><i /></div>
+          {Array.from({ length: 18 }, (_, index) => <i className={`mv-dust mv-dust-${index + 1}`} key={index} />)}
         </div>
 
-        <div className="hx-wordmark" aria-hidden="true">
-          <span>MIRKO</span>
-          <strong>IZOBASALT</strong>
+        <div className="mv-topline" aria-hidden="true">
+          <span><i /> FERGANA / UZBEKISTAN</span>
+          <span>INTERACTIVE PRODUCT STUDY · 01</span>
         </div>
 
-        <div className="hx-product-stage" aria-label="Трёхмерная плита MIRKO IZOBASALT, раскрывающая свою структуру при прокрутке">
-          <div className="hx-product-rig">
-            <div className="hx-thermal-ring ring-one" />
-            <div className="hx-thermal-ring ring-two" />
-            <div className="hx-block">
-              <div className="hx-face hx-front"><span className="hx-fiber-window" /></div>
-              <div className="hx-face hx-back" />
-              <div className="hx-face hx-right" />
-              <div className="hx-face hx-left" />
-              <div className="hx-face hx-top" />
-              <div className="hx-face hx-bottom" />
-              <div className="hx-package-panel">
-                <span className="hx-package-band">МИНЕРАЛЬНЫЙ УТЕПЛИТЕЛЬ</span>
-                <strong><i>MIRKO</i> IZOBASALT</strong>
-                <small>ТЕПЛО В ВАШЕМ ДОМЕ</small>
-                <b>80 · 100 · 120</b>
-              </div>
-            </div>
-            <div className="hx-slice slice-one" />
-            <div className="hx-slice slice-two" />
-            <div className="hx-slice slice-three" />
-            <div className="hx-object-shadow" />
-          </div>
-
-          <div className="hx-dimension dimension-width"><span>1200 мм</span></div>
-          <div className="hx-dimension dimension-height"><span>600 мм</span></div>
-          <div className="hx-material-tag tag-density"><span>ρ</span><strong>80–120</strong><small>кг/м³</small></div>
-          <div className="hx-material-tag tag-pack"><span>□</span><strong>5.04</strong><small>м² / пачка</small></div>
+        <div className={`mv-stage ${modelReady ? "is-ready" : ""}`}>
+          <div className="mv-halo" aria-hidden="true"><i /><i /><i /></div>
+          <div className="mv-loader" aria-hidden="true"><span>M</span><small>Загрузка 3D модели</small></div>
+          <ModelViewer
+            ref={modelRef}
+            className="mv-model"
+            src="/assets/mirko-izobasalt-product.glb"
+            alt="Интерактивная 3D модель упаковки MIRKO IZOBASALT"
+            camera-controls=""
+            camera-orbit={`${theta}deg ${phi}deg ${radius}%`}
+            field-of-view="29deg"
+            min-field-of-view="23deg"
+            max-field-of-view="36deg"
+            interaction-prompt="none"
+            touch-action="pan-y"
+            shadow-intensity="1.25"
+            shadow-softness="0.82"
+            environment-image="neutral"
+            exposure="1.12"
+            loading="eager"
+            reveal="auto"
+            onLoad={() => setModelReady(true)}
+          />
+          <div className="mv-platform" aria-hidden="true" />
+          <div className="mv-scanline" aria-hidden="true" />
+          <div className="mv-drag-cue" aria-hidden="true"><span>360°</span><small>Поверните модель</small></div>
+          <div className="mv-spec-tag mv-spec-density"><span>ρ</span><strong>80 / 100 / 120</strong><small>кг/м³</small></div>
+          <div className="mv-spec-tag mv-spec-size"><span>↔</span><strong>600 × 1200</strong><small>мм</small></div>
         </div>
 
-        <div className="hx-copy-layer">
-          <div className="hx-beat hx-intro">
-            <span className="eyebrow eyebrow-light">Минеральная теплоизоляция · Узбекистан</span>
+        <div className="mv-copy">
+          <div className="mv-beat mv-intro">
+            <span className="mv-kicker">Минеральная теплоизоляция нового поколения</span>
             <h1 id="hero-title">Тепло<br />остаётся<br /><em>внутри.</em></h1>
-            <p>Базальтовая теплоизоляция для тёплых, тихих и энергоэффективных зданий.</p>
-            <div className="hx-actions">
+            <p>Профессиональная базальтовая теплоизоляция для частных домов, коммерческих и промышленных объектов.</p>
+            <div className="mv-actions">
               <Link className="button button-green" href="/contact#request">Рассчитать проект <span>↗</span></Link>
-              <Link className="hx-ghost-link" href="/product">Изучить продукт <span>→</span></Link>
+              <Link className="mv-text-link" href="/product">Характеристики <span>→</span></Link>
             </div>
           </div>
 
-          <div className="hx-beat hx-inside">
-            <span className="hx-beat-index">01 / СТРУКТУРА</span>
-            <h2>Смотрим<br /><em>глубже.</em></h2>
-            <p>Упаковка исчезает. Остаётся волокнистое минеральное ядро, которое работает внутри конструкции.</p>
+          <div className="mv-beat mv-perspective">
+            <span className="mv-beat-index">01 / ФОРМА</span>
+            <h2>Продуман<br /><em>со всех сторон.</em></h2>
+            <p>Изучите упаковку в 360°. Удерживайте и поворачивайте модель — продукт здесь настоящий, а не стилизация.</p>
           </div>
 
-          <div className="hx-beat hx-density">
-            <span className="hx-beat-index">02 / ПЛОТНОСТЬ</span>
-            <div className="hx-big-number">80<small>100</small><b>120</b></div>
-            <h2>Три варианта.<br /><em>Одна система.</em></h2>
+          <div className="mv-beat mv-density-copy">
+            <span className="mv-beat-index">02 / ПЛОТНОСТЬ</span>
+            <div className="mv-density-numbers"><strong>80</strong><span>100</span><em>120</em></div>
+            <h2>Одна система.<br />Три задачи.</h2>
+            <p>Подбираем плотность материала под конкретную конструкцию и условия объекта.</p>
           </div>
 
-          <div className="hx-beat hx-shield">
-            <span className="hx-beat-index">03 / ЗАЩИТА</span>
-            <div className="hx-temperature">600<span>–800°C*</span></div>
-            <h2>Больше, чем<br />просто тепло.</h2>
-            <p>*Точное значение зависит от типа изделия и подтверждается технической документацией.</p>
-            <Link className="button button-light" href="/technology">Как это работает <span>→</span></Link>
+          <div className="mv-beat mv-protection">
+            <span className="mv-beat-index">03 / ЗАЩИТА</span>
+            <div className="mv-heat-number">600<span>–800°C*</span></div>
+            <h2>Больше,<br /><em>чем тепло.</em></h2>
+            <p>Тепловой комфорт, акустическая защита и минеральная основа в одном материале.</p>
+            <Link className="button button-light" href="/technology">Изучить технологию <span>→</span></Link>
           </div>
         </div>
 
-        <div className="hx-hud" aria-hidden="true">
-          <span>FERGANA / UZ</span>
-          <div className="hx-progress"><i style={{ transform: `scaleX(${progress})` }} /></div>
-          <span>{String(phase + 1).padStart(2, "0")} / 04</span>
+        <div className="mv-footer-nav" aria-hidden="true">
+          <span className={phase === 0 ? "is-active" : ""}>00 / Введение</span>
+          <span className={phase === 1 ? "is-active" : ""}>01 / 360°</span>
+          <span className={phase === 2 ? "is-active" : ""}>02 / Плотность</span>
+          <span className={phase === 3 ? "is-active" : ""}>03 / Защита</span>
+          <div><i style={{ transform: `scaleX(${progress})` }} /></div>
         </div>
-        <div className="hx-scroll-cue"><span>Прокрутите</span><i>↓</i></div>
+        <div className="mv-scroll-cue" aria-hidden="true"><span>Листайте</span><i>↓</i></div>
       </div>
     </section>
   );

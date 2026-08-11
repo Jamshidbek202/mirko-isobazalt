@@ -30,7 +30,7 @@ export default function ProductPage() {
           <Link className="button button-green" href="#calculate">Рассчитать количество <span>↓</span></Link>
         </div>
         <div className="product-hero-visual">
-          <Image src="/assets/product-side.jpg" alt="Пачка базальтовой теплоизоляции MIRKO IZOBASALT" fill sizes="(max-width: 820px) 100vw, 50vw" priority unoptimized />
+          <Image src="/assets/product-six-views.jpg" alt="Упаковка MIRKO IZOBASALT со всех сторон" fill sizes="(max-width: 820px) 100vw, 50vw" priority unoptimized />
           <div className="floating-spec spec-one"><strong>80–120</strong><span>кг/м³</span></div>
           <div className="floating-spec spec-two"><strong>5.04</strong><span>м² / пачка</span></div>
         </div>
