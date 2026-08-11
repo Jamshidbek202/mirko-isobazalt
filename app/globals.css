@@ -669,8 +669,8 @@ button { color: inherit; }
 .mv-density-numbers { display: flex; align-items: baseline; gap: clamp(20px, 1.7vw, 34px); margin: 22px 0 7px; color: white; font: 760 clamp(88px, 8.2vw, 150px)/.75 var(--body); letter-spacing: -.055em; white-space: nowrap; }
 .mv-density-numbers span { color: rgba(255,255,255,.34); font-size: .52em; letter-spacing: -.035em; }.mv-density-numbers em { color: var(--lime); font-size: .52em; font-style: normal; letter-spacing: -.035em; }
 .mv-density-copy h2 { font-size: clamp(43px, 4.9vw, 76px); }
-.mv-heat-number { margin: 25px 0 5px; color: var(--lime); font: 760 clamp(112px, 13vw, 210px)/.7 var(--body); letter-spacing: -.11em; }
-.mv-heat-number span { display: block; margin-left: 1.2em; color: white; font-size: .17em; letter-spacing: -.02em; }
+.mv-heat-number { margin: 25px 0 5px; color: var(--lime); font: 760 clamp(112px, 13vw, 210px)/.82 var(--body); letter-spacing: -.11em; }
+.mv-heat-number span { display: block; margin: 8px 0 0 .18em; color: white; font-size: .2em; line-height: 1; letter-spacing: -.02em; }
 .mv-protection h2 { margin-top: 10px; font-size: clamp(45px, 5vw, 78px); }
 .mv-protection .button { margin-top: 28px; }
 
