@@ -30,12 +30,13 @@ test("server-renders the finished MIRKO IZOBASALT home page", async () => {
   assert.doesNotMatch(html, /MIRKO ISOBASALT/);
 });
 
-test("brand, mobile fallback and language controls are wired", async () => {
-  const [home, factory, hero, language] = await Promise.all([
+test("brand, mobile fallback and full-site language controls are wired", async () => {
+  const [home, factory, hero, language, translator] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/factory/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../components/HeroExperience.tsx", import.meta.url), "utf8"),
     readFile(new URL("../components/LanguageContext.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../components/SiteTranslator.tsx", import.meta.url), "utf8"),
   ]);
   assert.match(`${home}\n${factory}`, /mirko-brand-2026\.png/);
   assert.doesNotMatch(`${home}\n${factory}`, /mirko-logo\.jpg/);
@@ -43,6 +44,12 @@ test("brand, mobile fallback and language controls are wired", async () => {
   assert.match(hero, /min-width: 821px/);
   assert.match(language, /"ru" \| "uz" \| "en"/);
   assert.match(language, /localStorage\.setItem\("mirko-language"/);
+  assert.match(translator, /General provisions/);
+  assert.match(translator, /Umumiy qoidalar/);
+  assert.match(translator, /MutationObserver/);
+  assert.match(translator, /document\.querySelector\("main"\)/);
+  assert.match(home, /unoptimized/);
+  assert.match(factory, /unoptimized/);
 });
 
 test("all public information routes render", async () => {

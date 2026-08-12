@@ -16,7 +16,7 @@ function orbitAngle(progress: number) {
 }
 
 export function HeroExperience() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const modelRef = useRef<HTMLElement>(null);
   const wheelLockRef = useRef(false);
@@ -174,7 +174,7 @@ export function HeroExperience() {
               className="mv-model"
               src="/assets/mirko-izobasalt-product.glb"
               poster="/assets/product-six-views.jpg"
-              alt="Интерактивная 3D модель упаковки MIRKO IZOBASALT"
+              alt={t("hero.alt")}
               camera-controls=""
               disable-pan=""
               disable-zoom=""
@@ -202,7 +202,7 @@ export function HeroExperience() {
           <div className="mv-drag-cue" aria-hidden="true"><span>360°</span><small>{t("hero.drag")}</small></div>
           <div className="mv-spec-tag mv-spec-density"><span>ρ</span><strong>80 / 100 / 120</strong><small>кг/м³</small></div>
           <div className="mv-spec-tag mv-spec-size"><span>↔</span><strong>600 × 1200</strong><small>мм</small></div>
-          <div className="mv-mobile-facts" aria-label="Основные характеристики"><span><strong>50</strong> мм</span><span><strong>50</strong> лет</span><span><strong>5.04</strong> м²</span></div>
+          <div className="mv-mobile-facts" aria-label={t("hero.mobileFacts")}><span><strong>50</strong> мм</span><span><strong>50</strong> {language === "uz" ? "yil" : language === "en" ? "years" : "лет"}</span><span><strong>5.04</strong> м²</span></div>
         </div>
 
         <div className="mv-copy">
@@ -240,10 +240,10 @@ export function HeroExperience() {
         </div>
 
         <div className="mv-footer-nav" aria-hidden="true">
-          <span className={phase === 0 ? "is-active" : ""}>00 / Введение</span>
-          <span className={phase === 1 ? "is-active" : ""}>01 / 360°</span>
-          <span className={phase === 2 ? "is-active" : ""}>02 / Плотность</span>
-          <span className={phase === 3 ? "is-active" : ""}>03 / Защита</span>
+          <span className={phase === 0 ? "is-active" : ""}>00 / {t("hero.intro")}</span>
+          <span className={phase === 1 ? "is-active" : ""}>01 / {t("hero.view360")}</span>
+          <span className={phase === 2 ? "is-active" : ""}>02 / {t("hero.density")}</span>
+          <span className={phase === 3 ? "is-active" : ""}>03 / {t("hero.protection")}</span>
           <div><i style={{ transform: `scaleX(${progress})` }} /></div>
         </div>
         <div className="mv-scroll-cue" aria-hidden="true"><span>{t("hero.scroll")}</span><i>↓</i></div>

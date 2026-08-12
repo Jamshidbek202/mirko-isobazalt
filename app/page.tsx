@@ -116,7 +116,7 @@ export default function Home() {
 
       <section className="factory-teaser">
         <div className="factory-logo-card">
-          <Image src="/assets/mirko-brand-2026.png" alt="Новый фирменный знак MIRKO IZOBASALT" fill sizes="(max-width: 820px) 100vw, 50vw" />
+          <Image src="/assets/mirko-brand-2026.png" alt="Новый фирменный знак MIRKO IZOBASALT" fill sizes="(max-width: 820px) 100vw, 50vw" unoptimized />
         </div>
         <div className="factory-copy">
           <span className="eyebrow eyebrow-light">MIRKO · 2025</span>

@@ -14,24 +14,32 @@ export function LeadForm() {
     return area && density && packs ? `Площадь: ${area} м²; плотность: ${density} кг/м³; ориентир: ${packs} пачек.` : "";
   }, [searchParams]);
 
+  const localizedProjectHint = projectHint
+    ? language === "uz"
+      ? projectHint.replace("Площадь", "Maydon").replace("плотность", "zichlik").replace("ориентир", "taxminan").replace("пачек", "qadoq")
+      : language === "en"
+        ? projectHint.replace("Площадь", "Area").replace("плотность", "density").replace("ориентир", "estimate").replace("пачек", "packs")
+        : projectHint
+    : "";
+
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const subject = encodeURIComponent("Заявка с сайта MIRKO IZOBASALT");
+    const subject = encodeURIComponent(t("form.subject"));
     const body = encodeURIComponent([
-      `Имя: ${data.get("name")}`,
-      `Телефон: ${data.get("phone")}`,
-      `Регион: ${data.get("region")}`,
-      `Объект: ${data.get("project")}`,
-      `Комментарий: ${data.get("message")}`,
-      projectHint,
+      `${t("form.emailName")}: ${data.get("name")}`,
+      `${t("form.phone")}: ${data.get("phone")}`,
+      `${t("form.emailRegion")}: ${data.get("region")}`,
+      `${t("form.emailObject")}: ${data.get("project")}`,
+      `${t("form.emailComment")}: ${data.get("message")}`,
+      localizedProjectHint,
     ].filter(Boolean).join("\n"));
     window.location.href = `mailto:mircoizobazalt@gmail.com?subject=${subject}&body=${body}`;
   }
 
   return (
     <form className="lead-form" onSubmit={submit}>
-      {projectHint && <div className="form-hint">Расчёт прикреплён: {projectHint}</div>}
+      {localizedProjectHint && <div className="form-hint">{t("form.attached")}: {localizedProjectHint}</div>}
       <div className="form-grid">
         <label><span>{t("form.name")}</span><input name="name" required placeholder={t("form.namePlaceholder")} /></label>
         <label><span>{t("form.phone")}</span><input name="phone" required type="tel" placeholder="+998 __ ___ __ __" /></label>

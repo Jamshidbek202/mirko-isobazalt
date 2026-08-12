@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import { LanguageProvider } from "@/components/LanguageContext";
+import { SiteTranslator } from "@/components/SiteTranslator";
 import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -34,5 +35,5 @@ export async function generateMetadata(): Promise<Metadata> {
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#0d261b" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="ru"><body><LanguageProvider>{children}</LanguageProvider></body></html>;
+  return <html lang="ru"><body><LanguageProvider><SiteTranslator />{children}</LanguageProvider></body></html>;
 }

@@ -8,11 +8,11 @@ export function ReviewForm() {
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const subject = encodeURIComponent("Отзыв о MIRKO IZOBASALT");
+    const subject = encodeURIComponent(t("review.subject"));
     const body = encodeURIComponent([
-      `Имя / компания: ${data.get("author")}`,
-      `Объект: ${data.get("project")}`,
-      `Оценка: ${data.get("rating")} из 5`,
+      `${t("review.emailAuthor")}: ${data.get("author")}`,
+      `${t("review.object")}: ${data.get("project")}`,
+      `${t("review.emailScore")}: ${data.get("rating")} / 5`,
       "",
       String(data.get("review")),
     ].join("\n"));
