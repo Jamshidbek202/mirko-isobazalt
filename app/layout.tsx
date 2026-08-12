@@ -35,5 +35,15 @@ export async function generateMetadata(): Promise<Metadata> {
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#0d261b" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="ru"><body><LanguageProvider><SiteTranslator />{children}</LanguageProvider></body></html>;
+  return (
+    <html lang="ru">
+      <head>
+        <meta
+          name="google-site-verification"
+          content="xPUDT9O1q8GrfMVJodj3-45BV_fULJRi-OO2Co1qcgk"
+        />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
 }
