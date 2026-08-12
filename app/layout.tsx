@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
+import { LanguageProvider } from "@/components/LanguageContext";
 import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -12,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: base,
     title: { default: "MIRKO IZOBASALT", template: "%s | MIRKO IZOBASALT" },
     description: "Минеральная теплоизоляция MIRKO IZOBASALT в Узбекистане.",
-    icons: { icon: "/assets/mirko-logo.jpg", shortcut: "/assets/mirko-logo.jpg" },
+    icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
     openGraph: {
       type: "website",
       locale: "ru_RU",
@@ -33,5 +34,5 @@ export async function generateMetadata(): Promise<Metadata> {
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#0d261b" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="ru"><body>{children}</body></html>;
+  return <html lang="ru"><body><LanguageProvider>{children}</LanguageProvider></body></html>;
 }

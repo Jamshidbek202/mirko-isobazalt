@@ -24,8 +24,25 @@ test("server-renders the finished MIRKO IZOBASALT home page", async () => {
   assert.match(html, /Тепло/);
   assert.match(html, /80 · 100 · 120/);
   assert.match(html, /5\.04/);
+  assert.match(html, /50 мм/);
+  assert.match(html, /50 лет/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/);
   assert.doesNotMatch(html, /MIRKO ISOBASALT/);
+});
+
+test("brand, mobile fallback and language controls are wired", async () => {
+  const [home, factory, hero, language] = await Promise.all([
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/factory/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../components/HeroExperience.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../components/LanguageContext.tsx", import.meta.url), "utf8"),
+  ]);
+  assert.match(`${home}\n${factory}`, /mirko-brand-2026\.png/);
+  assert.doesNotMatch(`${home}\n${factory}`, /mirko-logo\.jpg/);
+  assert.match(hero, /uses-static-model/);
+  assert.match(hero, /min-width: 821px/);
+  assert.match(language, /"ru" \| "uz" \| "en"/);
+  assert.match(language, /localStorage\.setItem\("mirko-language"/);
 });
 
 test("all public information routes render", async () => {

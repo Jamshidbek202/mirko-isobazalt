@@ -12,9 +12,11 @@ export const metadata: Metadata = {
 };
 
 const facts = [
-  ["2025", "год основания в Узбекистане"],
-  ["20+", "специалистов в команде"],
-  ["3", "плотности под разные задачи"],
+  ["50 мм", "толщина плиты"],
+  ["50 лет", "заявленный срок службы"],
+  ["80–120", "диапазон плотности, кг/м³"],
+  ["5.04 м²", "материала в одной пачке"],
+  ["600×1200", "формат плиты, мм"],
   ["FGR", "приоритетный регион поставок"],
 ];
 
@@ -56,7 +58,9 @@ export default function Home() {
         <div className="product-data-grid">
           <article><span>01 / Плотность</span><strong>80 · 100 · 120</strong><small>кг/м³</small></article>
           <article><span>02 / Формат</span><strong>600 × 1200</strong><small>мм</small></article>
-          <article><span>03 / В пачке</span><strong>5.04</strong><small>м²</small></article>
+          <article><span>03 / Толщина</span><strong>50</strong><small>мм</small></article>
+          <article><span>04 / Срок службы</span><strong>50</strong><small>лет</small></article>
+          <article><span>05 / В пачке</span><strong>5.04</strong><small>м²</small></article>
           <article className="product-data-action"><p>Подробные характеристики, области применения и рекомендации по подбору.</p><Link className="button button-dark" href="/product">Открыть продукт <span>↗</span></Link></article>
         </div>
       </section>
@@ -112,7 +116,7 @@ export default function Home() {
 
       <section className="factory-teaser">
         <div className="factory-logo-card">
-          <Image src="/assets/mirko-logo.jpg" alt="Логотип MIRKO IZOBASALT" fill sizes="(max-width: 820px) 100vw, 50vw" unoptimized />
+          <Image src="/assets/mirko-brand-2026.png" alt="Новый фирменный знак MIRKO IZOBASALT" fill sizes="(max-width: 820px) 100vw, 50vw" />
         </div>
         <div className="factory-copy">
           <span className="eyebrow eyebrow-light">MIRKO · 2025</span>

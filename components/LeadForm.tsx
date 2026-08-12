@@ -2,8 +2,10 @@
 
 import { useSearchParams } from "next/navigation";
 import { type FormEvent, useMemo } from "react";
+import { useLanguage } from "./LanguageContext";
 
 export function LeadForm() {
+  const { language, t } = useLanguage();
   const searchParams = useSearchParams();
   const projectHint = useMemo(() => {
     const area = searchParams.get("area");
@@ -31,15 +33,15 @@ export function LeadForm() {
     <form className="lead-form" onSubmit={submit}>
       {projectHint && <div className="form-hint">Расчёт прикреплён: {projectHint}</div>}
       <div className="form-grid">
-        <label><span>Ваше имя</span><input name="name" required placeholder="Как к вам обращаться?" /></label>
-        <label><span>Телефон</span><input name="phone" required type="tel" placeholder="+998 __ ___ __ __" /></label>
-        <label><span>Регион</span><input name="region" placeholder="Например, Фергана" /></label>
-        <label><span>Тип объекта</span><select name="project" defaultValue="Частный дом"><option>Частный дом</option><option>Многоквартирный дом</option><option>Коммерческий объект</option><option>Промышленный объект</option><option>Другое</option></select></label>
+        <label><span>{t("form.name")}</span><input name="name" required placeholder={t("form.namePlaceholder")} /></label>
+        <label><span>{t("form.phone")}</span><input name="phone" required type="tel" placeholder="+998 __ ___ __ __" /></label>
+        <label><span>{t("form.region")}</span><input name="region" placeholder={t("form.regionPlaceholder")} /></label>
+        <label><span>{t("form.project")}</span><select key={language} name="project" defaultValue={t("project.house")}><option>{t("project.house")}</option><option>{t("project.apartment")}</option><option>{t("project.commercial")}</option><option>{t("project.industrial")}</option><option>{t("project.other")}</option></select></label>
       </div>
-      <label><span>О проекте</span><textarea name="message" rows={4} placeholder="Площадь, нужная толщина, сроки или другие детали" /></label>
+      <label><span>{t("form.message")}</span><textarea name="message" rows={4} placeholder={t("form.messagePlaceholder")} /></label>
       <div className="form-submit">
-        <button className="button button-green" type="submit">Отправить заявку <span>↗</span></button>
-        <p>Нажимая кнопку, вы соглашаетесь с <a href="/privacy">политикой конфиденциальности</a>.</p>
+        <button className="button button-green" type="submit">{t("form.submit")} <span>↗</span></button>
+        <p><a href="/privacy">{t("form.consent")}</a></p>
       </div>
     </form>
   );

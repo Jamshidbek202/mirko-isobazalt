@@ -1,8 +1,10 @@
 "use client";
 
 import { type FormEvent } from "react";
+import { useLanguage } from "./LanguageContext";
 
 export function ReviewForm() {
+  const { t } = useLanguage();
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -20,13 +22,13 @@ export function ReviewForm() {
   return (
     <form className="review-form" onSubmit={submit}>
       <div className="form-grid">
-        <label><span>Имя или компания</span><input required name="author" placeholder="Ваше имя" /></label>
-        <label><span>Тип объекта</span><input name="project" placeholder="Например, частный дом" /></label>
+        <label><span>{t("review.author")}</span><input required name="author" placeholder={t("form.namePlaceholder")} /></label>
+        <label><span>{t("review.object")}</span><input name="project" placeholder={t("project.house")} /></label>
       </div>
-      <label><span>Оценка</span><select name="rating" defaultValue="5"><option value="5">5 — отлично</option><option value="4">4 — хорошо</option><option value="3">3 — нормально</option><option value="2">2 — есть замечания</option><option value="1">1 — плохо</option></select></label>
-      <label><span>Ваш отзыв</span><textarea required name="review" rows={5} placeholder="Расскажите, где использовали материал и что было важно" /></label>
-      <button className="button button-dark" type="submit">Отправить на модерацию <span>↗</span></button>
-      <small>Отзыв отправится через вашу почтовую программу и появится на сайте после проверки.</small>
+      <label><span>{t("review.rating")}</span><select name="rating" defaultValue="5"><option value="5">5 / 5</option><option value="4">4 / 5</option><option value="3">3 / 5</option><option value="2">2 / 5</option><option value="1">1 / 5</option></select></label>
+      <label><span>{t("review.text")}</span><textarea required name="review" rows={5} placeholder={t("review.text")} /></label>
+      <button className="button button-dark" type="submit">{t("review.submit")} <span>↗</span></button>
+      <small>{t("review.note")}</small>
     </form>
   );
 }

@@ -348,7 +348,8 @@ button { color: inherit; }
 .reviews-empty > span { color: var(--lime); font: 900 110px/.6 Georgia, serif; }
 .reviews-empty strong { margin: auto 0 20px; font: 800 clamp(38px, 4.2vw, 66px)/.96 var(--display); text-transform: uppercase; letter-spacing: -.04em; }
 .reviews-empty p { max-width: 350px; color: rgba(255,255,255,.5); font-size: 12px; line-height: 1.55; }
-.review-form, .lead-form { display: grid; gap: 24px; }
+.review-form, .lead-form { width: 100%; min-width: 0; display: grid; gap: 24px; }
+.reviews-empty, .review-form > *, .review-form label, .review-form textarea { min-width: 0; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .lead-form input, .lead-form textarea, .review-form input, .review-form textarea { width: 100%; padding: 14px 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--ink); outline: none; resize: vertical; }
 .lead-form input:focus, .lead-form textarea:focus, .review-form input:focus, .review-form textarea:focus { border-color: var(--green); }
@@ -817,4 +818,166 @@ button { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   .mv-dust, .mv-halo i, .mv-scanline { animation: none !important; }
+}
+
+/* 2026 presentation system */
+body { text-rendering: optimizeLegibility; }
+
+/* New MIRKO mark: lightweight web interpretation of the supplied M + basalt bridge */
+.brand-mark { width: 45px; height: 35px; margin: 0; overflow: visible; border: 0 !important; border-radius: 0; background: transparent; box-shadow: none; }
+.brand-mark::before, .brand-mark::after { content: none; }
+.brand-mark-svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.brand-mark-left { fill: #0b0b0b; }.brand-mark-right { fill: #12a039; }
+.brand-mark-basalt { fill: #c49a42; stroke: #eccf79; stroke-width: 1; }
+.brand-mark-fiber { fill: none; stroke: rgba(76,47,7,.66); stroke-width: 1.5; }
+.site-header-overlay .brand-mark-left, .brand-inverse .brand-mark-left { fill: #f7f6f1; }
+.brand-name { font-size: 16px; letter-spacing: -.035em; }
+.language-switch button { padding: 4px 0; border: 0; background: transparent; opacity: .34; color: inherit; font-size: 9px; font-weight: 800; letter-spacing: .08em; cursor: pointer; }
+.language-switch button:hover, .language-switch button:focus-visible { opacity: .75; }
+.language-switch button.is-active { opacity: 1; color: var(--green); }
+.site-header-overlay .language-switch button.is-active { color: var(--lime); }
+.language-switch-mobile { display: none; padding-bottom: 13px; border-bottom: 1px solid rgba(255,255,255,.14); }
+
+/* Product facts */
+.fact-strip { grid-template-columns: repeat(6, 1fr); }
+.fact-strip > div { padding: 28px clamp(15px, 2.2vw, 38px); }
+.fact-strip strong { font-size: clamp(26px, 3vw, 48px); }
+.product-data-grid { grid-template-columns: repeat(3, 1fr); }
+.product-data-grid .product-data-action { grid-column: span 1; }
+.factory-logo-card, .factory-hero-logo { background: #061009; }
+.factory-logo-card img, .factory-hero-logo img { padding: clamp(22px, 3vw, 48px); object-fit: contain; object-position: center; mix-blend-mode: normal; }
+
+/* Desktop 3D and mobile product fallback */
+.mv-static-product, .mv-mobile-facts, .mv-mobile-note { display: none; }
+
+/* Technology page */
+.technology-page-hero-v2 { min-height: 820px; background: #06180f; }
+.technology-page-hero-v2::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, transparent 49.95%, rgba(255,255,255,.1) 50%, transparent 50.05%); }
+.thermal-lab { position: relative; overflow: hidden; min-height: 820px; display: grid; place-items: center; background: radial-gradient(circle at 50% 48%, rgba(180,232,95,.18), transparent 30%), linear-gradient(145deg, #092318, #06140d); }
+.thermal-lab::before { content: ""; position: absolute; inset: 11%; border: 1px solid rgba(180,232,95,.12); background-image: linear-gradient(rgba(180,232,95,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(180,232,95,.06) 1px, transparent 1px); background-size: 54px 54px; }
+.thermal-lab-ring { position: absolute; width: 55%; aspect-ratio: 1; border: 1px solid rgba(180,232,95,.32); border-radius: 50%; }
+.thermal-lab .ring-one { transform: rotateX(68deg); }.thermal-lab .ring-two { width: 72%; border-style: dashed; transform: rotate(24deg); }
+.thermal-lab-core { position: relative; z-index: 2; display: grid; place-items: center; color: var(--lime); }
+.thermal-lab-core span { font: 780 clamp(140px, 16vw, 260px)/.72 var(--body); letter-spacing: -.1em; }
+.thermal-lab-core small { margin-top: 23px; color: white; font: 700 clamp(25px, 3vw, 46px)/1 var(--body); }
+.thermal-lab-caption { position: absolute; left: 11%; bottom: 9%; color: rgba(255,255,255,.42); font-size: 9px; line-height: 1.6; letter-spacing: .12em; text-transform: uppercase; }
+.science-section-v2 { background: #f8f7f2; }
+.science-diagram-v2 { min-height: 610px; grid-template-columns: .72fr 1.25fr .72fr; border: 0; gap: 1px; background: rgba(11,23,17,.13); }
+.science-step { position: relative; min-width: 0; padding: clamp(28px, 3.2vw, 52px); overflow: hidden; display: flex; flex-direction: column; background: white; }
+.science-step-index { position: relative; z-index: 2; color: rgba(11,23,17,.45); font-size: 8px; font-weight: 800; letter-spacing: .16em; }
+.science-step > strong { position: relative; z-index: 2; margin-top: auto; font: 760 clamp(34px, 3.7vw, 58px)/.9 var(--body); letter-spacing: -.055em; }
+.science-step > p { position: relative; z-index: 2; max-width: 360px; margin: 21px 0 0; color: rgba(11,23,17,.55); font-size: 13px; line-height: 1.6; }
+.science-outside { color: #12180c; background: linear-gradient(155deg, #dde69a, #c6cd73); }
+.temperature-scale { height: 180px; margin-top: 65px; display: flex; align-items: end; gap: 7px; }
+.temperature-scale i { flex: 1; background: rgba(11,23,17,.18); }.temperature-scale i:nth-child(1){height:28%}.temperature-scale i:nth-child(2){height:43%}.temperature-scale i:nth-child(3){height:62%}.temperature-scale i:nth-child(4){height:79%}.temperature-scale i:nth-child(5){height:100%;background:var(--green)}
+.science-fibers { color: white; background: #0a2a1b; }
+.science-fibers .science-step-index, .science-fibers > p { color: rgba(255,255,255,.52); }
+.fiber-network { position: absolute; inset: 0; opacity: .44; }
+.fiber-network i { position: absolute; left: 41%; top: 43%; width: 90%; height: 1px; background: linear-gradient(90deg, rgba(205,170,88,.95), transparent); transform-origin: left; }
+.fiber-network i:nth-child(3n+1){transform:rotate(calc(var(--n, 1) * 13deg))}.fiber-network i:nth-child(3n+2){transform:rotate(31deg) translateY(calc(var(--n, 1) * 2px))}.fiber-network i:nth-child(3n){transform:rotate(-48deg) translateY(calc(var(--n, 1) * -2px))}
+.fiber-network i:nth-child(1){transform:rotate(4deg)}.fiber-network i:nth-child(2){transform:rotate(17deg)}.fiber-network i:nth-child(3){transform:rotate(31deg)}.fiber-network i:nth-child(4){transform:rotate(45deg)}.fiber-network i:nth-child(5){transform:rotate(59deg)}.fiber-network i:nth-child(6){transform:rotate(73deg)}.fiber-network i:nth-child(7){transform:rotate(87deg)}.fiber-network i:nth-child(8){transform:rotate(101deg)}.fiber-network i:nth-child(9){transform:rotate(115deg)}.fiber-network i:nth-child(10){transform:rotate(129deg)}.fiber-network i:nth-child(11){transform:rotate(143deg)}.fiber-network i:nth-child(12){transform:rotate(157deg)}
+.fiber-network i:nth-child(13){transform:rotate(11deg) translateY(35px)}.fiber-network i:nth-child(14){transform:rotate(26deg) translateY(-29px)}.fiber-network i:nth-child(15){transform:rotate(40deg) translateY(22px)}.fiber-network i:nth-child(16){transform:rotate(55deg) translateY(-18px)}.fiber-network i:nth-child(17){transform:rotate(69deg) translateY(31px)}.fiber-network i:nth-child(18){transform:rotate(83deg) translateY(-27px)}.fiber-network i:nth-child(19){transform:rotate(97deg) translateY(19px)}.fiber-network i:nth-child(20){transform:rotate(111deg) translateY(-33px)}.fiber-network i:nth-child(21){transform:rotate(125deg) translateY(28px)}.fiber-network i:nth-child(22){transform:rotate(139deg) translateY(-21px)}.fiber-network i:nth-child(23){transform:rotate(153deg) translateY(34px)}.fiber-network i:nth-child(24){transform:rotate(167deg) translateY(-25px)}
+.science-core-spec { position: absolute; z-index: 3; top: 80px; right: 36px; padding: 18px; display: grid; border: 1px solid rgba(180,232,95,.35); background: rgba(5,18,11,.72); backdrop-filter: blur(12px); }
+.science-core-spec span { color: var(--lime); font: 760 42px/.8 var(--body); }.science-core-spec small { margin-top: 8px; color: rgba(255,255,255,.52); font-size: 9px; text-transform: uppercase; }
+.science-inside { background: linear-gradient(155deg, #eff6ef, #dcebe1); }
+.comfort-pulse { position: relative; width: 180px; height: 180px; margin: 72px auto 0; }
+.comfort-pulse i { position: absolute; inset: 0; border: 1px solid rgba(38,114,72,.32); border-radius: 50%; }.comfort-pulse i:nth-child(2){inset:24px}.comfort-pulse i:nth-child(3){inset:51px;background:var(--green);box-shadow:0 0 40px rgba(38,114,72,.2)}
+.science-caption { margin: 20px 0 0; color: rgba(11,23,17,.42); font-size: 10px; line-height: 1.5; }
+.technology-benefits { padding: clamp(95px, 10vw, 160px) clamp(28px, 6.7vw, 108px); color: white; background: #07170f; }
+.technology-benefits-heading { margin-bottom: 80px; display: flex; justify-content: space-between; align-items: end; gap: 50px; }
+.technology-benefits-heading h2 { max-width: 950px; margin: 0; text-align: right; font: 740 clamp(54px, 7vw, 106px)/.86 var(--body); letter-spacing: -.07em; }
+.technology-benefit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,.14); }
+.technology-benefit-grid article { min-height: 500px; padding: clamp(30px, 4vw, 64px); display: flex; flex-direction: column; background: #0a2116; transition: background .25s ease; }
+.technology-benefit-grid article:hover { background: #0e2c1d; }
+.benefit-card-top { display: flex; justify-content: space-between; color: var(--lime); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
+.benefit-card-top small { color: rgba(255,255,255,.36); }
+.benefit-metric { margin: 65px 0 8px; color: var(--lime); font: 740 clamp(62px, 7.5vw, 118px)/.8 var(--body); letter-spacing: -.08em; }
+.benefit-note { color: rgba(255,255,255,.38); font-size: 8px; letter-spacing: .15em; text-transform: uppercase; }
+.benefit-card-copy { margin-top: auto; display: grid; grid-template-columns: .85fr 1fr; gap: 45px; align-items: end; }
+.benefit-card-copy h3 { margin: 0; font: 700 clamp(30px, 3.2vw, 50px)/.95 var(--body); letter-spacing: -.05em; }.benefit-card-copy p { margin: 0; color: rgba(255,255,255,.52); font-size: 13px; line-height: 1.65; }
+.technology-spec-band { display: grid; grid-template-columns: repeat(4, 1fr); background: var(--lime); }
+.technology-spec-band > div { min-height: 175px; padding: 30px; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid rgba(11,23,17,.18); }
+.technology-spec-band span { color: rgba(11,23,17,.5); font-size: 8px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }.technology-spec-band strong { font: 760 clamp(31px, 3vw, 48px)/.9 var(--body); letter-spacing: -.055em; }.technology-spec-band small { color: rgba(11,23,17,.5); font-size: 9px; }
+.document-callout-v2 { border-top: 1px solid var(--line); }
+
+/* Privacy page */
+.legal-hero-v2 { min-height: 720px; display: grid; grid-template-columns: 1.15fr .85fr; color: white; background: #07170f; }
+.legal-hero-copy { padding: clamp(75px, 9vw, 140px) clamp(28px, 6.7vw, 108px); display: flex; flex-direction: column; justify-content: center; }
+.legal-hero-copy .page-index { margin-bottom: auto; color: rgba(255,255,255,.3); }
+.legal-hero-copy h1 { margin: 40px 0 30px; font: 740 clamp(67px, 8.5vw, 132px)/.79 var(--body); letter-spacing: -.075em; }.legal-hero-copy h1 em { color: var(--lime); font-style: normal; }.legal-hero-copy > p { max-width: 570px; margin: 0; color: rgba(255,255,255,.54); font-size: 16px; line-height: 1.65; }
+.legal-status-card { margin: clamp(30px, 4vw, 70px); padding: clamp(35px, 4vw, 65px); display: flex; flex-direction: column; justify-content: center; border: 1px solid rgba(180,232,95,.22); background: linear-gradient(155deg, rgba(180,232,95,.1), rgba(255,255,255,.025)); }
+.legal-status { color: var(--lime); font-size: 8px; font-weight: 800; letter-spacing: .16em; }.legal-status-card > strong { margin: 24px 0; font: 730 clamp(50px, 6vw, 86px)/.9 var(--body); letter-spacing: -.065em; }.legal-status-card > p { color: rgba(255,255,255,.54); font-size: 13px; line-height: 1.65; }
+.legal-quick-facts { margin-top: 50px; display: grid; gap: 13px; }.legal-quick-facts span { display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,.7); font-size: 10px; }.legal-quick-facts i { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 12px rgba(180,232,95,.45); }
+.legal-overview { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--line); background: white; }
+.legal-overview article { min-height: 190px; padding: 30px; display: flex; flex-direction: column; border-right: 1px solid var(--line); }.legal-overview article > span { color: var(--green); font-size: 9px; }.legal-overview strong { margin-top: auto; font: 700 24px/1 var(--body); }.legal-overview p { margin: 10px 0 0; color: rgba(11,23,17,.48); font-size: 11px; line-height: 1.5; }
+.legal-document-v2 { padding: clamp(90px, 10vw, 160px) clamp(28px, 6.7vw, 108px); display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: clamp(55px, 9vw, 150px); background: #f5f3ed; }
+.legal-toc { position: sticky; top: 110px; height: fit-content; }.legal-toc nav { margin-top: 35px; display: grid; border-top: 1px solid var(--line); }.legal-toc nav a { min-height: 54px; display: grid; grid-template-columns: 35px 1fr; align-items: center; border-bottom: 1px solid var(--line); color: rgba(11,23,17,.58); font-size: 10px; }.legal-toc nav a:hover { color: var(--green); }.legal-toc nav span { color: var(--green); font-size: 8px; }
+.legal-email { margin-top: 34px; padding: 22px; display: grid; gap: 8px; background: var(--forest); color: white; }.legal-email span { color: rgba(255,255,255,.4); font-size: 8px; text-transform: uppercase; letter-spacing: .12em; }.legal-email strong { overflow-wrap: anywhere; font-size: 11px; }
+.legal-content-v2 { min-width: 0; }.legal-content-v2 article { scroll-margin-top: 100px; padding: 50px 0; display: grid; grid-template-columns: 65px 1fr; border-top: 1px solid var(--line); }.legal-content-v2 article > span { color: var(--green); font-size: 9px; }.legal-content-v2 h2 { max-width: 820px; margin: 0 0 20px; font: 720 clamp(34px, 4vw, 60px)/.95 var(--body); letter-spacing: -.055em; }.legal-content-v2 p { max-width: 760px; margin: 0; color: rgba(11,23,17,.6); font-size: 14px; line-height: 1.75; }.legal-content-v2 p + p { margin-top: 14px; }.legal-content-v2 a { color: var(--green); text-decoration: underline; }
+.legal-note-v2 { margin-top: 30px; padding: clamp(27px, 4vw, 48px); display: grid; grid-template-columns: 100px 1fr; gap: 28px; color: white; background: var(--green); }.legal-note-v2 span { color: var(--lime); font-size: 9px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }.legal-note-v2 p { margin: 0; color: rgba(255,255,255,.72); font-size: 13px; line-height: 1.65; }
+
+@media (max-width: 1100px) {
+  .fact-strip { grid-template-columns: repeat(3, 1fr); }
+  .fact-strip > div { border-bottom: 1px solid rgba(255,255,255,.1); }
+  .technology-benefits-heading { align-items: start; flex-direction: column; }.technology-benefits-heading h2 { text-align: left; }
+  .benefit-card-copy { grid-template-columns: 1fr; gap: 20px; }
+  .technology-spec-band { grid-template-columns: 1fr 1fr; }
+  .legal-document-v2 { grid-template-columns: 240px 1fr; gap: 55px; }
+}
+
+@media (max-width: 820px) {
+  .header-actions .language-switch { display: none; }
+  .language-switch-mobile { display: flex; }
+  .mobile-menu nav { border-radius: 18px; }
+  .brand-mark { width: 42px; height: 32px; transform: none; }
+
+  .model-hero { height: auto; }
+  .model-hero-sticky { position: relative; height: 980px; min-height: 980px; }
+  .mv-topline { top: 93px; }
+  .mv-topline span:last-child, .mv-perspective, .mv-density-copy, .mv-protection, .mv-model, .mv-loader, .mv-drag-cue, .mv-spec-tag, .mv-scanline, .mv-halo, .mv-footer-nav { display: none !important; }
+  .mv-intro { display: block; left: 22px; right: 22px; top: 142px; width: auto; opacity: 1 !important; transform: none !important; }
+  .mv-intro h1 { margin: 22px 0 18px; font-size: clamp(61px, 17vw, 88px); line-height: .82; }
+  .mv-intro > p { max-width: 570px; font-size: 12px; line-height: 1.55; }
+  .mv-actions { margin-top: 22px; flex-direction: row; align-items: center; gap: 18px; }
+  .mv-actions .button { min-height: 48px; padding-inline: 18px; }
+  .mv-mobile-note { display: block; max-width: 480px; margin-top: 17px; color: rgba(255,255,255,.32); font-size: 8px; line-height: 1.45; letter-spacing: .06em; }
+  .mv-stage { left: 50% !important; top: 74%; width: calc(100% - 32px); height: 310px; min-height: 0; }
+  .mv-static-product { position: absolute; z-index: 4; inset: 0; display: block; overflow: hidden; border: 1px solid rgba(255,255,255,.12); border-radius: 25px; background: #fafaf7; box-shadow: 0 34px 80px rgba(0,0,0,.28); }
+  .mv-static-product::after { content: "MIRKO IZOBASALT · 50 ММ · 50 ЛЕТ"; position: absolute; left: 18px; bottom: 15px; padding: 8px 11px; border-radius: 999px; color: white; background: rgba(7,23,15,.82); font-size: 7px; font-weight: 800; letter-spacing: .12em; }
+  .mv-static-product img { object-fit: cover; object-position: 5% 4%; transform: scale(1.9); transform-origin: 14% 7%; filter: saturate(.92) contrast(1.02); }
+  .mv-platform { left: 15%; right: 15%; bottom: -3%; height: 10%; }
+  .mv-mobile-facts { position: absolute; z-index: 8; left: 12px; right: 12px; bottom: -62px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; overflow: hidden; border: 1px solid rgba(255,255,255,.12); border-radius: 16px; background: rgba(255,255,255,.12); }
+  .mv-mobile-facts span { min-height: 54px; display: flex; align-items: center; justify-content: center; gap: 5px; color: rgba(255,255,255,.48); background: rgba(5,20,12,.92); font-size: 8px; text-transform: uppercase; }.mv-mobile-facts strong { color: var(--lime); font-size: 16px; }
+  .mv-house { top: 43%; opacity: .06; }.mv-grid { opacity: .13; }
+
+  .fact-strip { grid-template-columns: 1fr 1fr; }
+  .fact-strip > div { min-height: 108px; }
+  .product-data-grid { grid-template-columns: 1fr 1fr; }
+  .product-data-grid .product-data-action { grid-column: 1 / -1; }
+  .factory-logo-card, .factory-hero-logo { min-height: 390px; }
+
+  .technology-page-hero-v2 { min-height: auto; grid-template-columns: 1fr; }
+  .thermal-lab { min-height: 540px; }.thermal-lab-core span { font-size: 32vw; }
+  .science-diagram-v2 { min-height: 0; grid-template-columns: 1fr; grid-template-rows: none; gap: 1px; }
+  .science-step { min-height: 440px; }.science-fibers { min-height: 520px; }.temperature-scale { margin-top: 55px; }
+  .technology-benefits { padding: 90px 22px; }.technology-benefits-heading { margin-bottom: 50px; }.technology-benefits-heading h2 { font-size: 13vw; }
+  .technology-benefit-grid { grid-template-columns: 1fr; }.technology-benefit-grid article { min-height: 420px; }.benefit-metric { font-size: 19vw; }
+  .technology-spec-band { grid-template-columns: 1fr 1fr; }.technology-spec-band > div { min-height: 135px; padding: 22px; }.technology-spec-band strong { font-size: 7vw; }
+
+  .legal-hero-v2 { grid-template-columns: 1fr; }.legal-hero-copy { min-height: 690px; padding: 60px 22px; }.legal-hero-copy h1 { font-size: 16vw; }.legal-status-card { margin: 0; min-height: 430px; border-inline: 0; }
+  .legal-overview { grid-template-columns: 1fr 1fr; }.legal-overview article { min-height: 155px; padding: 22px; border-bottom: 1px solid var(--line); }
+  .legal-document-v2 { padding: 85px 22px; grid-template-columns: 1fr; gap: 70px; }.legal-toc { position: static; }.legal-content-v2 article { grid-template-columns: 38px 1fr; }.legal-content-v2 h2 { font-size: 9vw; }.legal-note-v2 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 520px) {
+  .brand-name { font-size: 12px; }.brand { gap: 8px; }
+  .model-hero-sticky { height: 940px; min-height: 940px; }
+  .mv-kicker { max-width: 285px; }
+  .mv-intro h1 { font-size: clamp(55px, 16vw, 75px); }
+  .mv-actions { gap: 13px; }.mv-actions .button { min-height: 46px; padding-inline: 15px; font-size: 9px; }.mv-text-link { gap: 10px; font-size: 8px; }
+  .mv-stage { top: 75%; height: 270px; }
+  .mv-static-product img { transform: scale(2.05); }
+  .product-data-grid { grid-template-columns: 1fr; }.product-data-grid .product-data-action { grid-column: auto; }
+  .technology-spec-band { grid-template-columns: 1fr; }
+  .legal-overview { grid-template-columns: 1fr; }
 }

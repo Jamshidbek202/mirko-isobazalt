@@ -6,15 +6,16 @@ import { PageShell } from "@/components/PageShell";
 
 export const metadata: Metadata = {
   title: "Базальтовая плита",
-  description: "Характеристики базальтовой теплоизоляции MIRKO IZOBASALT: плотность 80, 100 и 120 кг/м³, формат 600 × 1200 мм, 5.04 м² в пачке.",
+  description: "Характеристики базальтовой теплоизоляции MIRKO IZOBASALT: толщина 50 мм, срок службы 50 лет, плотность 80, 100 и 120 кг/м³.",
 };
 
 const specs = [
   ["Плотность", "80 / 100 / 120 кг/м³"],
   ["Формат плиты", "600 × 1200 мм"],
   ["Площадь пачки", "5.04 м²"],
+  ["Толщина плиты", "50 мм"],
+  ["Срок службы", "50 лет"],
   ["Температурная стойкость", "600–800°C*"],
-  ["Толщина", "Уточняется"],
   ["Цена", "По запросу"],
 ];
 
@@ -39,7 +40,7 @@ export default function ProductPage() {
       <section className="section product-details">
         <div className="section-heading heading-row">
           <div><span className="eyebrow">Спецификация</span><h2>Главное —<br />в цифрах.</h2></div>
-          <p>Публикуем только подтверждённые параметры. Толщина, цена и дополнительные показатели будут добавлены после получения технической документации.</p>
+          <p>Собрали основные параметры в одном месте. Точная цена и рекомендации по применению подтверждаются специалистом под конкретный объект.</p>
         </div>
         <div className="spec-table">
           {specs.map(([name, value], index) => <div key={name}><span>{String(index + 1).padStart(2, "0")}</span><strong>{name}</strong><em>{value}</em></div>)}
